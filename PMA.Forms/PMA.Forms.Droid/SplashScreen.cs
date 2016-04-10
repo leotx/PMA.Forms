@@ -17,5 +17,28 @@ namespace PMA.Forms.Droid
             : base(Resource.Layout.SplashScreen)
         {
         }
+
+        private bool _isInitializationComplete;
+
+        public override void InitializationComplete()
+        {
+            if (_isInitializationComplete) return;
+            _isInitializationComplete = true;
+            StartActivity(typeof(MvxFormsApplicationActivity));
+        }
+
+        protected override void OnCreate(Android.OS.Bundle bundle)
+        {
+            Xamarin.Forms.Forms.Init(this, bundle);
+            Xamarin.Forms.Forms.ViewInitialized += (sender, e) =>
+            {
+                if (!string.IsNullOrWhiteSpace(e.View.StyleId))
+                {
+                    e.NativeView.ContentDescription = e.View.StyleId;
+                }
+            };
+
+            base.OnCreate(bundle);
+        }
     }
 }

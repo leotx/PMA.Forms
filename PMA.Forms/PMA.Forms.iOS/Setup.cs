@@ -1,7 +1,8 @@
 using MvvmCross.Core.ViewModels;
+using MvvmCross.Forms.Presenter.Core;
+using MvvmCross.Forms.Presenter.iOS;
 using MvvmCross.iOS.Platform;
 using MvvmCross.iOS.Views.Presenters;
-using MvvmCross.Platform.Platform;
 using UIKit;
 
 namespace PMA.Forms.iOS
@@ -23,9 +24,13 @@ namespace PMA.Forms.iOS
             return new App();
         }
         
-        protected override IMvxTrace CreateDebugTrace()
+        protected override IMvxIosViewPresenter CreatePresenter()
         {
-            return new DebugTrace();
+            Xamarin.Forms.Forms.Init();
+
+            var xamarinFormsApp = new MvxFormsApp();
+
+            return new MvxFormsIosPagePresenter(Window, xamarinFormsApp);
         }
     }
 }
